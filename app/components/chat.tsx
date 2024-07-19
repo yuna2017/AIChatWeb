@@ -637,6 +637,7 @@ export function ChatActions(props: {
   const currentModel = {
     name: chatStore.currentSession().mask.modelConfig.model,
     avatarEmoji: chatStore.currentSession().mask.modelConfig.avatarEmoji,
+    avatarFileUuid: chatStore.currentSession().mask.modelConfig.avatarFileUuid,
     contentType: chatStore.currentSession().mask.modelConfig.contentType,
     messageStruct: chatStore.currentSession().mask.modelConfig.messageStruct,
     processModes: chatStore.currentSession().mask.modelConfig.processModes,
@@ -807,6 +808,11 @@ export function ChatActions(props: {
           icon={
             currentModel.avatarEmoji ? (
               <Avatar avatar={currentModel.avatarEmoji} noBorder={true} />
+            ) : currentModel.avatarFileUuid ? (
+              <Avatar
+                logoUrl={"/api/file/" + currentModel.avatarFileUuid}
+                noBorder={true}
+              />
             ) : (
               <RobotIcon />
             )
@@ -820,7 +826,13 @@ export function ChatActions(props: {
           items={availableModels.map((m) => ({
             title: m.name,
             subTitle: m.desc,
-            icon: m.avatarEmoji ? <Avatar avatar={m.avatarEmoji} /> : <></>,
+            icon: m.avatarEmoji ? (
+              <Avatar avatar={m.avatarEmoji} />
+            ) : m.avatarFileUuid ? (
+              <Avatar logoUrl={"/api/file/" + m.avatarFileUuid} />
+            ) : (
+              <></>
+            ),
             value: m.name,
           }))}
           onClose={() => setShowModelSelector(false)}
@@ -832,6 +844,7 @@ export function ChatActions(props: {
               (mask) => {
                 mask.modelConfig.model = selectedModel.name;
                 mask.modelConfig.avatarEmoji = selectedModel.avatarEmoji;
+                mask.modelConfig.avatarFileUuid = selectedModel.avatarFileUuid;
                 mask.modelConfig.contentType = selectedModel.contentType;
                 mask.modelConfig.messageStruct = selectedModel.messageStruct;
                 mask.modelConfig.processModes = selectedModel.processModes;
@@ -1478,6 +1491,20 @@ function _Chat(props: {
                   same = false;
                   session.mask.modelConfig.avatarEmoji =
                     selectedModel.avatarEmoji;
+                }
+                if (
+                  session.mask.modelConfig.avatarFileUuid !=
+                  selectedModel.avatarFileUuid
+                ) {
+                  console.log(
+                    "avatarFileUuid has been changed, old = ",
+                    session.mask.modelConfig.avatarFileUuid,
+                    ", new = ",
+                    selectedModel.avatarFileUuid,
+                  );
+                  same = false;
+                  session.mask.modelConfig.avatarFileUuid =
+                    selectedModel.avatarFileUuid;
                 }
                 const sameArray = (a: string[], b: string[]) => {
                   if (
@@ -2168,6 +2195,7 @@ function _Chat(props: {
             (m) => m.name === message.model,
           )[0];
           const messageEmoji = messageModel?.avatarEmoji;
+          const messageHeadPhotoUuid = messageModel?.avatarFileUuid;
 
           return (
             <Fragment key={message.id}>
@@ -2208,7 +2236,14 @@ function _Chat(props: {
                           {["system"].includes(message.role) ? (
                             <Avatar avatar="2699-fe0f" logoUrl={logoUrl} />
                           ) : (
-                            <Avatar avatar={messageEmoji} logoUrl={logoUrl} />
+                            <Avatar
+                              avatar={messageEmoji}
+                              logoUrl={
+                                messageHeadPhotoUuid
+                                  ? "/api/file/" + messageHeadPhotoUuid
+                                  : logoUrl
+                              }
+                            />
                           )}
                         </>
                       )}

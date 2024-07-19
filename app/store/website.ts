@@ -32,6 +32,7 @@ export interface SimpleModel {
   name: string;
   desc?: string;
   avatarEmoji: string;
+  avatarFileUuid: string | null;
   contentType: ModelContentType;
   messageStruct: ModelMessageStruct;
   summarizeModel: string | null;

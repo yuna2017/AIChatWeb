@@ -71,6 +71,8 @@ export function MaskAvatar(props: {
   // 如果后台配置了展示模型的头像，那么会传给mask.modelConfig?.avatarEmoji，此时优先显示展示模型的头像，忽略用户自己的配置
   return props.mask.modelConfig?.avatarEmoji ? (
     <Avatar avatar={props.mask.modelConfig?.avatarEmoji} />
+  ) : props.mask.modelConfig?.avatarFileUuid ? (
+    <Avatar logoUrl={"/api/file/" + props.mask.modelConfig?.avatarFileUuid} />
   ) : props.mask.avatar !== DEFAULT_MASK_AVATAR ? (
     // mask.avatar !== DEFAULT_MASK_AVATAR 说明用户（或管理员在后台）自定义了头像，此时显示用户自己（或管理员）设定的头像
     <Avatar avatar={props.mask.avatar} logoUrl={props.logoUrl} />

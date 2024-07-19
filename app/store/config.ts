@@ -62,6 +62,7 @@ export const DEFAULT_CONFIG = {
   modelConfig: {
     model: "gpt-3.5-turbo" as ModelType,
     avatarEmoji: "",
+    avatarFileUuid: "" as string | null,
     contentType: "Text" as ModelContentType,
     messageStruct: "normal" as ModelMessageStruct,
     temperature: 0.5,
