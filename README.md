@@ -203,7 +203,7 @@
 3. 连接云服务器，在命令行中运行以下代码
 
 ```shell
-bash <(curl -s https://raw.githubusercontent.com/Nanjiren01/AIChatWeb/main/scripts/setup.sh)
+bash <(curl -s https://raw.githubusercontent.com/yuna2017/AIChatWeb/main/scripts/setup.sh)
 ```
 
 命令运行过程中，需要设置超级管理员的账号和密码（请将aichat888更改为自己的账号密码并牢记），如下所示：
