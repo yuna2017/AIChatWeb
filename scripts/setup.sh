@@ -27,7 +27,7 @@ if ! command -v docker >/dev/null; then
       ./install-docker-v20.10.21.sh
 
       # auto start on boot
-      systemctl enable docker
+      # systemctl enable docker
       ;;
     Darwin)
       # /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
